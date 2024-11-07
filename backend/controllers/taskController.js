@@ -42,3 +42,22 @@ exports.deleteTask = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.filterTaskByStatus = async (req, res) => {
+  try {
+    // console.log(req.query)
+    const filterquery ={}
+    filterquery.user= req.user._id ;
+
+    const {status } = req.query;
+    if(status){
+      filterquery.status = status;
+    }
+    console.log(filterquery)
+    const tasks = await Task.find(filterquery);
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
